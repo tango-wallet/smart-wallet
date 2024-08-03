@@ -9,5 +9,17 @@ module.exports = {
         tests: "./test",
         cache: "./cache",
         artifacts: "./artifacts"
-      }
+    },
+    networks: {
+        scroll_devnet: {
+            chainId:  2227728,
+            timeout:  20000,
+            gasPrice: 8000000000,
+            gas:      "auto",
+            name:     "Scroll Devnet",		
+            url:      process.env.SCROLL_ACCESSPOINT_URL,
+            from:     process.env.SCROLL_ACCOUNT,
+            accounts: [process.env.SCROLL_PRIVATE_KEY]
+        }
+    }
 };
