@@ -5,12 +5,14 @@ import "src/interfaces/IWallet_Template_v1.sol";
 import "src/abstract_contracts/Owner.sol";
 import "openzeppelin-contracts/cryptography/ECDSA.sol";
 import "openzeppelin-contracts/token/ERC20/IERC20.sol";
+import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 
 
 contract Wallet_Template_v1 is IWallet_Template_v1, Owner {
 
     /// STATE VARIABLES
 
+    AggregatorV3Interface internal dataFeed;
     uint256 public constant VERSION = 1;
 
     /// MODIFIERS
@@ -24,6 +26,9 @@ contract Wallet_Template_v1 is IWallet_Template_v1, Owner {
 
     constructor(address _owner) {
         _addOwner(_owner);
+         dataFeed = AggregatorV3Interface(
+            0xFadA8b0737D4A3AE7118918B7E69E689034c0127
+        );
     }
 
 
@@ -196,7 +201,14 @@ contract Wallet_Template_v1 is IWallet_Template_v1, Owner {
         bytes32 _ethSignedMessageHash = ECDSA.toEthSignedMessageHash(_messageHash);
         address _signer = ECDSA.recover(_ethSignedMessageHash, _signature);
         return _signer;
-    } 
+    }
+
+    function getUSDCDataFeedLatestAnswer() public view returns (int) {
+        (
+            ,int answer,,,
+        ) = dataFeed.latestRoundData();
+        return answer;
+    }
 
     /// ERRORS
 

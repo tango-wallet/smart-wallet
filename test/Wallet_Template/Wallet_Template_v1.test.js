@@ -268,6 +268,14 @@ describe("Contract tests", () => {
         });
     });
 
+    describe("getUSDC function tests", () => {
+        it("USDC test", async () => {
+            const usdc = await wallet_Template.getUSDC();
+            console.log(usdc);
+        })
+    })
+
+
     describe("sendNativeTokenWithSignature function tests", () => {
         it("try sendNativeTokenWithSignature with wrong selector test", async () => {
             const functionSignature = wallet_Template.interface.getSighash("removeOwner(address)");

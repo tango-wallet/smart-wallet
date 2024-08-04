@@ -52,6 +52,11 @@ interface IWallet_Template_v1 {
      */
     function executeTransaction(address _target, uint256 _value, bytes memory _signature, bytes memory _data) external payable returns (bytes memory);
 
+    /*
+    * @notice Get the latest answer from the USDC
+    */
+    function getUSDCDataFeedLatestAnswer() external view returns (int);
+
     /**
      * @notice Allows the smart wallet to receive native tokens.
      */

@@ -11,8 +11,9 @@ module.exports = {
         artifacts: "./artifacts"
     },
     networks: {
+        /*
         scroll_devnet: {
-            chainId:  2227728,
+            chainId:  process.env.SCROLL_CHAIN_ID,
             timeout:  20000,
             gasPrice: 8000000000,
             gas:      "auto",
@@ -21,5 +22,6 @@ module.exports = {
             from:     process.env.SCROLL_ACCOUNT,
             accounts: [process.env.SCROLL_PRIVATE_KEY]
         }
+        */
     }
 };
