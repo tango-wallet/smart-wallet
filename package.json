@@ -8,6 +8,7 @@
     "openzeppelin-contracts": "^4.0.0"
   },
   "devDependencies": {
+    "@nomicfoundation/hardhat-verify": "^2.0.9",
     "chai": "^4.4.1",
     "ethereum-waffle": "^4.0.10"
   }

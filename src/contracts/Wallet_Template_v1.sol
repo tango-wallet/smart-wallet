@@ -26,9 +26,6 @@ contract Wallet_Template_v1 is IWallet_Template_v1, Owner {
 
     constructor(address _owner) {
         _addOwner(_owner);
-         dataFeed = AggregatorV3Interface(
-            0xFadA8b0737D4A3AE7118918B7E69E689034c0127
-        );
     }
 
 
@@ -182,6 +179,22 @@ contract Wallet_Template_v1 is IWallet_Template_v1, Owner {
         return _returnData;
     }
 
+    function setDataFeed(address _dataFeed) external onlyOwner isZeroAddress(_dataFeed) {
+        dataFeed = AggregatorV3Interface(_dataFeed);
+        //dataFeed = AggregatorV3Interface(0xFadA8b0737D4A3AE7118918B7E69E689034c0127);
+    }
+
+    function getUSDCDataFeedLatestAnswer() public view returns (int256) {
+        (
+            uint80 roundId,
+            int256 answer,
+            uint256 startedAt,
+            uint256 updatedAt,
+            uint80 answeredInRound
+        ) = dataFeed.latestRoundData();
+        return answer;
+    }
+
     /**
      * @notice Allows the smart wallet to receive native tokens.
      */
@@ -201,13 +214,6 @@ contract Wallet_Template_v1 is IWallet_Template_v1, Owner {
         bytes32 _ethSignedMessageHash = ECDSA.toEthSignedMessageHash(_messageHash);
         address _signer = ECDSA.recover(_ethSignedMessageHash, _signature);
         return _signer;
-    }
-
-    function getUSDCDataFeedLatestAnswer() public view returns (int) {
-        (
-            ,int answer,,,
-        ) = dataFeed.latestRoundData();
-        return answer;
     }
 
     /// ERRORS

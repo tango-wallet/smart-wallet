@@ -270,8 +270,22 @@ describe("Contract tests", () => {
 
     describe("getUSDC function tests", () => {
         it("USDC test", async () => {
-            const usdc = await wallet_Template.getUSDC();
-            console.log(usdc);
+             // Deploy a mock data feed contract
+            const contractPathMockDataFeed = "src/mocks/MockDataFeed.sol:MockDataFeed";
+            const contractFactoryMockDataFeed = await ethers.getContractFactory(contractPathMockDataFeed, signer);
+            const mockDataFeed = await contractFactoryMockDataFeed.deploy();
+
+            // Wait for the transaction to be mined
+            await provider.waitForTransaction(mockDataFeed.deployTransaction.hash, confirmations_number);
+
+            // Set datafeed
+            const wallet_Template2 = wallet_Template.connect(owner1);
+            tx = await wallet_Template2.setDataFeed(mockDataFeed.address);
+            await provider.waitForTransaction(tx.hash, confirmations_number);
+
+            // Get latest price
+            const usdcPrice = await wallet_Template2.getUSDCDataFeedLatestAnswer();
+            expect(usdcPrice).not.to.be.equal(200);
         })
     })
 
